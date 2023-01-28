@@ -1,0 +1,35 @@
+Approach: In this question what we are doing is storing all the incoming elements in set and then whenever getIntervals() function will get invoked then i will 
+make my vector of vector array and if my upcoming element comes out to just 1 greater than my previous inserted interval right value then it can be treat in together
+in contiguous interval and if not then we can just treat it as another interval.
+
+class SummaryRanges {
+public:
+    set<int> store;
+    SummaryRanges() {
+    }
+    
+    void addNum(int value) {
+        store.insert(value);
+    }
+    
+    vector<vector<int>> getIntervals() {
+        vector<vector<int>> ans;
+        for(auto it: store){
+            if(ans.size()>0 and (ans[ans.size()-1][1]+1==it)){
+                ans[ans.size()-1][1]=it;
+            }
+            else{
+                vector<int> temp={it,it};
+                ans.push_back(temp);
+            }
+        }
+        return ans;
+    }
+};
+
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges* obj = new SummaryRanges();
+ * obj->addNum(value);
+ * vector<vector<int>> param_2 = obj->getIntervals();
+ */
