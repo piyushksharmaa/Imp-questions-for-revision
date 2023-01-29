@@ -1,0 +1,26 @@
+Approach: 
+In this question what we are doing here is to store original array so that we can return it whenever reset function gets invoked. But, for shuffle function
+first we will create a temp array and then generate random indices and then place its value in temp array and delete generated index from array so that values won't 
+get repeated values so it's gonna take O(n^2). So, to avoid this what we can do is start from last indices and then generate numbers accordingly so that indices won't
+get repeat.
+
+class Solution {
+public:
+    vector<int> original;
+    Solution(vector<int>& nums) {
+        original=nums;
+    }
+    
+    vector<int> reset() {
+        return original;
+    }
+    
+    vector<int> shuffle() {
+        vector<int> temp=original;
+        int n=temp.size();
+        for(int i=n-1;i>=0;i--){
+            swap(temp[i],temp[rand()%(i+1)]);
+        }
+        return temp;
+    }
+};
