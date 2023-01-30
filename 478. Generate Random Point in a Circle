@@ -1,0 +1,36 @@
+Approach: In this question what we have done is to x+len*cos(theta) and y+len*cos(theta)
+          As this will cover the whole circle as theta is varying from 0 to 360.
+          First, rand()/RAND_MAX is generating numbers between 0 to 1.
+          Then for theta it is simple that we are generating number between 0 to 360.
+          And, for len as we learnt that space between points are varying with radius so to deal with unequally spaced points we are not directly multiplying with 
+          random instead multiplying with its sqrt.
+          
+          
+          
+class Solution {
+public:
+    double x,y,r;
+    Solution(double radius, double x_center, double y_center) {
+        r=radius;
+        x=x_center;
+        y=y_center;
+    }
+    
+    vector<double> randPoint() {
+        double len,theta;
+        double random1=(double)rand()/RAND_MAX;
+        theta=random1*2*3.141592653589793238;
+        double random2=(double)rand()/RAND_MAX;
+        len=sqrt(random2)*r;
+        double x_r=x+len*cos(theta);
+        double y_r=y+len*sin(theta);
+        return vector<double>{x_r,y_r};
+        // return ans;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(radius, x_center, y_center);
+ * vector<double> param_1 = obj->randPoint();
+ */
