@@ -1,0 +1,94 @@
+Approach 1: So this is a simple recursion + memoization, what we have done is from startPos we will one step ahead and one step back and when it will reach end and k
+          k becomes 0 we will return 1 otherwise 0 as we have not reached endPosition and k becomes 0.
+          This shifting we have done because we can go thousand steps back also so to store in dp we have to shift our starting point and then return our ans.
+          4001 is kinda random.
+
+class Solution {
+public:
+    long long dp[4001][1001];
+    long long solver(int s,int e,int k){
+        if(k==0 and s==e){
+            return 1;
+        }
+        if(k==0){
+            return 0;
+        }
+        if(dp[s+1000][k]!=-1){
+            return dp[s+1000][k];
+        }
+        long long a=solver(s+1,e,k-1);
+        a+=solver(s-1,e,k-1);
+        return dp[s+1000][k]=(a)%1000000007;
+    }
+    int numberOfWays(int startPos, int endPos, int k) {
+        memset(dp,-1,sizeof(dp));
+        return solver(startPos,endPos,k)%1000000007;
+        
+    }
+};
+
+Approach 2: 
+
+x is the number of +1s and y is the number of -1s
+x => number of go one step ahead
+y => number of go one step back 
+
+so fir meine 2 ko voh baaju le liya
+this gave me the number of +1 moves I am going to make (x)
+abhi consider there are k moves that you need to make:
+? ? ? ? ? ? ? .... k moves
+abhi you need to place these (x) +1s anywhere on these k blank places, others will be filled up by -1. How many ways too put x +1s in k blank spaces? 
+K Choose x = K C X 
+
+
+
+
+
+
+class Solution {
+public:
+
+    const int MOD = 1e9 + 7;
+
+    long long binpow(long long a, long long b)
+    {
+        long long res = 1;
+
+        while(b)
+        {
+            if(b & 1) res *= a;
+
+            a *= a; b >>= 1;
+
+            res %= MOD; a %= MOD;
+        }
+        
+        return res;
+    }
+
+    int numberOfWays(int start, int end, int k)
+    {
+        // x + y = k
+        // x - y = end - start
+        // 2x = k + end - start
+        // this means that k + end - start is even
+        // x = (k + end - start) / 2
+        // now we can choose K C X ways to put a one in any position, so we just need to calculate K C X
+
+        if((k + end - start) % 2 || k < abs(end - start)) return 0;
+
+        int x = (k + end - start) / 2;
+        int kMinusX = k - x;
+
+        long long fact1 = 1, fact2 = 1, fact3 = 1;
+
+        for(int i = 1; i <= k; i++)
+        {
+            if(i <= x) fact1 = fact1 * i % MOD;
+            if(i <= kMinusX) fact2 = fact2 * i % MOD;
+            fact3 = fact3 * i % MOD;
+        }
+
+        return fact3 * binpow((fact1 * fact2) % MOD, MOD - 2) % MOD;
+    }
+};
