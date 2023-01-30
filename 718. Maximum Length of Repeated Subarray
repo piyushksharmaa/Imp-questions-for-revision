@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int dp[1001][1001];
+    int ans=0;
+    int solver(int i,int j,vector<int>& nums1,vector<int>& nums2){
+        if(i==nums1.size() or j==nums2.size()){
+            return 0;
+        }
+        if(dp[i][j]!=-1){return dp[i][j];}
+        int take=0;
+        //We are increasing value of take if value of both the array are equal
+        if(nums1[i]==nums2[j]){
+            take=1+solver(i+1,j+1,nums1,nums2);
+            //Here, We put maxiumum value of take in our ans
+            ans=max(ans,take);
+        }
+        //Subarray are successive, so if values are not equal then we doesn't need to count that part
+        solver(i,j+1,nums1,nums2);
+        solver(i+1,j,nums1,nums2);
+        //lastly we return the value of take 
+        return dp[i][j]=take;
+    }
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+        memset(dp,-1,sizeof(dp));
+        solver(0,0,nums1,nums2);
+        return ans;
+    }
+};
