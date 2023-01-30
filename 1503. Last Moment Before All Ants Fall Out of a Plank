@@ -1,0 +1,17 @@
+Approach: In this question there is kind of trick that as ants are of similar kind we can avoid considering about collisions and let them move without collisions and 
+          then finding simply without collisions how much time will they take to fall out of the plank.
+          
+          
+class Solution {
+public:
+    int getLastMoment(int n, vector<int>& left, vector<int>& right) {
+        int max_time=0;
+        for(int i=0;i<int(left.size());i++){
+            max_time=max(left[i],max_time);
+        }
+        for(int i=0;i<int(right.size());i++){
+            max_time=max(n-right[i],max_time);
+        }
+        return max_time;
+    }
+};
