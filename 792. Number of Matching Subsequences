@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        map<char,vector<int>> mp;
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            mp[s[i]].push_back(i);
+        }
+        // for(auto it: mp){
+        //     cout<<it.first<<" ";
+        //     for(int i=0;i<it.second.size();i++){
+        //         cout<<it.second[i]<<" ";
+        //     }
+        //     cout<<endl;
+        // }
+        int m=words.size();
+        int count=0;
+        for(string it: words){
+            int prev=-1;
+            int w=it.size();
+            int j=0;
+            for(j=0;j<w;j++){
+                vector<int>::iterator upper=upper_bound(mp[it[j]].begin(), mp[it[j]].end(), prev);
+                if(upper==mp[it[j]].end()){
+                    break;
+                }
+                prev=*upper;
+                // cout<<(*upper)<<endl;
+            }
+            if(j==w){count++;}
+        }
+        return count;
+    }
+};
