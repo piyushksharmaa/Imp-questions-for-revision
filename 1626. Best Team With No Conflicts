@@ -1,0 +1,45 @@
+// So, in this question we have to find the maximum score so that all the conditions holds true.
+// For age restrictions that we can't choose a player with score higher if its age is lower than someone whose score // is lower and age is greater so we are making another vector of {ages,scores} and sort them in ascending order of 
+// ages so we don't have to worry about age anymore and we just have to find LIS now.
+
+// Here we are finding LIS by checking if my previous player(j) score is lower than my current player(i) score then 
+// we can choose that player score so this is our only condition.
+
+// For dp array we have to consider that we are starting our prev from -1, so we have to use [j+1] so we need not to // worry about negative indices.
+class Solution {
+public:
+    vector<vector<int>>dp;
+     int solve(int i,int j,int n,vector<pair<int,int>>&players)
+     {
+        if(i == n)
+        {
+            return 0;
+        }
+        if(dp[i][j+1]!= -1)
+        {
+            return dp[i][j+1];
+        }
+        int notake = solve(i+1,j,n,players);
+        if(j == -1 or players[j].second<= players[i].second)
+        {
+         int take = players[i].second + solve(i+1,i,n,players);
+         return dp[i][j+1] =  max(take,notake);
+        }
+        return dp[i][j+1] = notake;
+
+     }
+
+    int bestTeamScore(vector<int>& scores, vector<int>& ages) {
+        dp.resize(1002,vector<int>(1002,-1));   // This is for resizing the dp vector.
+        vector<pair<int,int>>players;
+        int n = scores.size();
+        
+        for(int i = 0;i<n;i++)
+        {
+          players.push_back({ages[i],scores[i]});  
+        }
+        sort(players.begin(),players.end());
+        return solve(0,-1,n,players);
+
+    }
+};
