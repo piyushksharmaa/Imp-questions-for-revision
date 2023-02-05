@@ -1,0 +1,40 @@
+Approach 1 : So, this was an optimized version of the previous approach(In which we were checking every substring of s and matching it with p by sorting both of 
+             them.) but in this as we were getting TLE in previous one what we are doing is maintain two freq arrays and in 1st freq array we are storing frequencies 
+             of characters of p and in 2nd freq array we are storing frequency of characters of s by maintaing a sliding window of size of 2nd string and 
+             increasing it one by one and once we reach size equal to p.size() then we will check if both the frequency array are same or not. And, if not then 
+             we will increase j if j-i+1 is less than s1.size and increase both i and j if j-i+1 is equal or greater than p.size() and also reducing frequency 
+             at the same time.
+
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        sort(p.begin(),p.end());
+        int n1=s.size();
+        int n2=p.size();
+        vector<int> store;
+        vector<int> freq1(26,0);
+        vector<int> freq2(26,0);
+        for(int i=0;i<n2;i++){
+            freq1[p[i]-'a']++;
+        }
+        int i=0;int j=0;
+        while(j<n1){
+            freq2[s[j]-'a']++;
+            if(j-i+1==n2){
+                if(freq1==freq2){
+                    store.push_back(i);
+                }
+            }
+            if(j-i+1<n2){
+                j++;
+            }
+            else{
+                freq2[s[i]-'a']--;
+                j++;
+                i++;
+            }
+        }
+        return store;
+    }
+};
