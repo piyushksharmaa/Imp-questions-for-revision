@@ -1,0 +1,22 @@
+
+
+class Solution {
+public:
+    int dp[1001];
+    int solver(int idx,vector<int>& cost){
+        if(idx==0){
+            return cost[0];
+        }
+        if(idx==1){
+            return cost[1];
+        }
+        if(dp[idx]!=-1){return dp[idx];}
+        int ans=cost[idx]+min(solver(idx-1,cost),solver(idx-2,cost));
+        return dp[idx]=ans;
+    }
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n=cost.size();
+        memset(dp,-1,sizeof(dp));
+        return min(solver(n-1,cost),solver(n-2,cost));
+    }
+};
