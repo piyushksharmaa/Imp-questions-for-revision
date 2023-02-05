@@ -1,0 +1,55 @@
+Approach: This is a standard problem for binary searching on answer
+          We have to check for x if we can invite that much people or not and if we can then we shift our focus on right hand side as we need maximum people to come
+          in our party.
+          Solver function logic is just amazing let me explain you why as we are maintaining a count variable to store people coming. Now at every indices 
+          poor people will be count as they are coming before i and rich will be equal to mid-count-1 as we want mid people to come in party and count we already 
+          selected and if this satisfies the condition then this person is coming and in the end we will check if count>=mid.
+
+
+#include<iostream>
+#include <bits/stdc++.h>
+#include<vector>
+#include<set>
+#include <cmath>
+using namespace std;
+#define ll long long
+
+bool solver(ll mid,vector<pair<ll,ll>>& arr){
+	int count=0;
+	for(ll i=0;i<int(arr.size());i++){
+		ll poor=count;
+		ll rich=mid-count-1;
+		if(rich<=arr[i].first and poor<=arr[i].second){
+			count++;
+			// cout<<i<<" ";
+		}
+	}
+	// cout<<count<<endl;
+	return count>=mid;
+}
+int main() {
+	ll t,n;
+	cin>>t;
+	while(t--){
+		cin>>n;
+		vector<pair<ll,ll>> arr(n);
+		for(ll i=0;i<n;i++){
+			cin>>arr[i].first;
+			cin>>arr[i].second;
+		}
+		ll start=0;
+		ll end=n;
+		ll ans=INT_MIN;
+		while(start<=end){
+			ll mid=start+(end-start)/2;
+			if(solver(mid,arr)){
+				ans=max(mid,ans);
+				start=mid+1;
+			}
+			else{
+				end=mid-1;
+			}
+		}
+		cout<<ans<<endl;
+	}
+}
