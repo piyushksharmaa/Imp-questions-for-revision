@@ -1,0 +1,28 @@
+Approach: In this question, we have been asked to find minimum number of jumps to reach nums[n-1], if currently placed at nums[0]. 
+          So, putting base cases, if index reached last index then we don't have to move further so return 0 and if i>=nums.size() then return INT_MAX/2 as we want to 
+          reach last index only.
+          Then checking all the possibilities using for loop. 
+
+class Solution {
+public:
+    long long int solver(int i,vector<int>& nums,vector<long long int>& dp){
+        if(i==nums.size()-1){
+            return 0;
+        }
+        if(i>=nums.size()){
+            return INT_MAX/2;
+        }
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+        long long int res=INT_MAX;
+        for(int j=1;j<=nums[i];j++){
+            res=min(res,solver(i+j,nums,dp)+1);
+        }
+        return dp[i]=res;
+    }
+    int jump(vector<int>& nums) {
+        vector<long long int> dp(nums.size(),-1);
+        return solver(0,nums,dp);
+    }
+};
