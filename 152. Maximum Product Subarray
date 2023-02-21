@@ -1,0 +1,33 @@
+/*
+Algorithm
+
+Case 1:- [10, 2, 20] (max is the product of 3 for the case when all are positive)
+10 -> 20 -> 40
+
+Case 2:- [-10, -2, -20, -40] (for finding the max you need to keep track of the min so far)
+-10 => 20 =>-40 => 1600
+
+Case 3:- [10, -2, 20] (No itself can be the maximum product)
+
+There are 3 contender at each iteration in the array
+Max product is => 
+1) Max So far * Current el => Case 1
+2) Min Sor far* Current el => Case 2
+3) Currenr el => Case 3
+*/
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int n=nums.size();
+        int maxsofar=nums[0];
+        int minsofar=nums[0];
+        int res=nums[0];
+        for(int i=1;i<n;i++){
+            int copy=maxsofar;
+            maxsofar=max(nums[i],max(maxsofar*nums[i],minsofar*nums[i]));
+            minsofar=min(nums[i],min(copy*nums[i],minsofar*nums[i]));
+            res=max(res,maxsofar);
+        }
+        return res;
+    }
+};
