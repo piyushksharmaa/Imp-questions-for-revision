@@ -1,0 +1,42 @@
+https://codeforces.com/problemset/problem/1253/C
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long 
+#define mod 1000000007
+int main(){
+	ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
+	int n,m;
+	cin>>n>>m;
+	vector<int> arr(n);
+	for(int i=0;i<n;i++){
+		cin>>arr[i];
+	}
+	sort(arr.begin(),arr.end());    // As order does not matter here so we can sort this whole array.
+	// dp[i] -> minimum sweet penalty for eating first i sweets.
+  vector<ll> dp(n);               
+	dp[0]=arr[0];
+	ll sum=arr[0];
+  
+  // a1 a2 a3 a4 a5 a6.......ak
+  // dp[k] -> dp[k-m] + Sum of (a[k-m+1].....a[k]) + Sum of(a[1]....a[k-m])
+  Sum of (a[k-m+1].....a[k])-> as this part is getting freshly added.
+  Sum of(a[1]....a[k-m])-> as this part is previously added but now their sweetness is increased by 1.
+  dp[k-m] ->  It is previously calculated.
+  
+	for(int i=1;i<n;i++){
+		sum+=arr[i];
+		if(i>=m){
+			dp[i]=dp[i-m]+sum;
+		}
+		else{
+			dp[i]=sum;
+		}
+	}
+	for(int i=0;i<n;i++){
+		cout<<dp[i]<<" ";
+	}
+	cout<<endl;
+}
