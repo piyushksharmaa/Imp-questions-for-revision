@@ -1,0 +1,25 @@
+Approach: There was a simple approach in this as to just counting 1's as they are occurring and when we will encounter a zero we will just make left=right and right
+          as 0 to start counting again and then again we will start counting.
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& s) {
+        int n=s.size();
+        int max_ans=0;
+        int left=0,right=0;
+        // bool encountered=false;
+        for(int i=0;i<n;i++){
+            if(s[i]==1){
+                right++;
+            }
+            else{
+                // encountered=true;
+                left=right;
+                right=0;
+            }
+            max_ans=max(max_ans,left+right);
+        }
+        if(max_ans==n){return max_ans-1;}
+        return max_ans;
+    }
+};
