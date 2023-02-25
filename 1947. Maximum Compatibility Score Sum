@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int dp[1LL<<9][10];
+    // 'i' basically here denotes how many students we have covered 
+    int solver(vector<vector<int>>& students,vector<vector<int>>& mentors,int mask,int i){
+        if(i==students.size()){
+            return 0;
+        }
+        if(dp[mask][i]!=-1){
+            return dp[mask][i];
+        }
+        int res=0;
+        for(int j=0;j<mentors.size();j++){                  // To iterate over the mentors array
+            if(!(mask&(1LL<<j))){
+                int temp=(mask|(1LL<<j));
+                int score=0;
+                for(int k=0;k<mentors[j].size();k++){
+                    if(students[i][k]==mentors[j][k]){
+                        score++;
+                    }
+                }
+                res=max(res,solver(students,mentors,temp,i+1)+score);
+            }
+        }
+        return dp[mask][i]=res;
+    }
+    int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+        // int n=students.size();
+        memset(dp,-1,sizeof(dp));
+        return solver(students,mentors,0,0);
+    }
+};
