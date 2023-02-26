@@ -1,0 +1,33 @@
+
+
+class Solution {
+  public:
+    void solver(int node,vector<int>& vis,vector<vector<int>>& adj,int& v_count,int& e_count){
+        vis[node]=1;
+        v_count++;                                           // vertex count
+        vector<int> temp=adj[node];
+        e_count+=(temp.size());                             // edges count
+        for(auto it: adj[node]){
+            if(vis[it]!=1){
+                
+                solver(it,vis,adj,v_count,e_count);
+            }
+        }
+    }
+    int findNumberOfGoodComponent(int V, vector<vector<int>>& adj) {
+        // code here
+        vector<int> vis(V+1,0);
+        int ans=0;
+        for(int i=1;i<=V;i++){
+            if(vis[i]!=1){
+                int v_count=0,e_count=0;
+                solver(i,vis,adj,v_count,e_count);                   
+                if(e_count==(v_count*(v_count-1))){                          // For fully connected graph, formula is e=v*(v-1)/2, but edges are getting count twice 
+                                                                             // So we have use e=v*(v-1);
+                    ans++;  
+                }
+            }
+        }
+        return ans;
+    }
+};
